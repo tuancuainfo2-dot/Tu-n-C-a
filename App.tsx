@@ -55,7 +55,13 @@ const App: React.FC = () => {
   // Load data when user logs in
   const loadUserData = (userId: string) => {
     const storageKey = `dat_app_data_${userId}`;
-    const savedData = localStorage.getItem(storageKey);
+    let savedData: string | null = null;
+try {
+  savedData = localStorage.getItem(storageKey);
+} catch (e) {
+  console.error("localStorage error", e);
+}
+
     
     if (savedData) {
         try {
