@@ -333,9 +333,8 @@ try {
   };
 
   if (!isLoggedIn) {
-    return <Login onLogin={handleLogin} />;
-  }
-
+  return <div style={{ padding: 20 }}>LOGIN SCREEN OK</div>;
+}
   return (
     <Layout 
         activeTab={activeTab} 
