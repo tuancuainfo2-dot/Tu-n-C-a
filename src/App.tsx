@@ -55,13 +55,7 @@ const App: React.FC = () => {
   // Load data when user logs in
   const loadUserData = (userId: string) => {
     const storageKey = `dat_app_data_${userId}`;
-    let savedData: string | null = null;
-try {
-  savedData = localStorage.getItem(storageKey);
-} catch (e) {
-  console.error("localStorage error", e);
-}
-
+    const savedData = localStorage.getItem(storageKey);
     
     if (savedData) {
         try {
@@ -333,16 +327,45 @@ try {
   };
 
   if (!isLoggedIn) {
-  return <div style={{ padding: 20 }}>LOGIN SCREEN OK</div>;
-}
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
-  return (
-  <div style={{ padding: 20 }}>
-    <h1>APP CHẠY OK</h1>
-    <p>React render được</p>
-  </div>
-);
-  
+    <Layout 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        notifications={notifications} 
+        onLogout={handleLogout}
+        user={currentUser || undefined}
+    >
+      {activeTab === 'dashboard' && (
+        <Dashboard 
+          students={students} 
+          courseInfo={courseInfo}
+          courseHistory={courseHistory}
+          onUpdateCourse={handleUpdateCourseInfo}
+          onArchiveCourse={handleArchiveCourse}
+          onDeleteHistory={handleDeleteHistory}
+        />
+      )}
+      {activeTab === 'students' && (
+        <StudentList 
+          students={students} 
+          courseInfo={courseInfo}
+          onAddStudent={handleAddStudent}
+          onEditStudent={handleEditStudent}
+          onDeleteStudent={handleDeleteStudent}
+          onDeleteSession={handleDeleteSession}
+        />
+      )}
+      {activeTab === 'session' && (
+        <SessionEntry 
+          students={students} 
+          onAddSession={handleAddSession} 
+        />
+      )}
+    </Layout>
+  );
 };
 
 export default App;
